@@ -14,13 +14,14 @@ const PassengerDetails = () => {
       email: "",
       fname: "",
       lname: "",
+      passport:""
     },
     validationSchema: PassengerDetailSchema,
     onSubmit: () => {
       navigate("/flightconfirmation", { state: { values, Airline, country, price, selectedDate } })
     },
   });
-  const { name, phone, email, fname, lname } = values
+  const { name, phone, email, fname, lname ,passport} = values
   return (
     <>
       <div className="h-full">
@@ -122,6 +123,22 @@ const PassengerDetails = () => {
                 </div>
                 {errors.phone && touched.phone ? (
                   <p className="text-red-900">{errors.phone}</p>
+                ) : null}
+              </div>
+              <div>
+                <label htmlFor="text">Passport Number</label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    className="w-full rounded-lg  border-white p-3 text-sm shadow-sm"
+                    placeholder="Enter Passport Number"
+                    onChange={handleChange}
+                    name={'passport'}
+                    value={passport}
+                  />
+                </div>
+                {errors.passport && touched.passport ? (
+                  <p className="text-red-900">{errors.passport}</p>
                 ) : null}
               </div>
               <div className='flex flex-col'>

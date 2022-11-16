@@ -63,7 +63,7 @@
   {
     "country": "Paris to Banglore",
     "Airline": "Air India",
-    "price": 2045
+    "price": 4045
   },
   {
     "country": "Paris to Banglore",
@@ -83,7 +83,7 @@
   {
     "country": "Paris to Lahore",
     "Airline": "Air India",
-    "price": 1880
+    "price": 2880
   },
 
   {
@@ -158,6 +158,11 @@
     "price": 3045
   },
   {
+    "country": "Mumbai to Paris",
+    "Airline": "Air Indigo",
+    "price": 3895
+  },
+  {
     "country": "Mumbai to Delhi",
     "Airline": "Air India",
     "price": 945
@@ -166,6 +171,11 @@
     "country": "Mumbai to Delhi",
     "Airline": "Air Asia",
     "price": 865
+  },
+  {
+    "country": "Mumbai to Delhi",
+    "Airline": "Vistara",
+    "price": 1865
   },
   {
     "country": "Mumbai to Lahore",

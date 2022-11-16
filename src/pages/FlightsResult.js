@@ -1,58 +1,114 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import myData from '../flightsData/data.json';
-
 import { reverseDate } from '../components/ReverseDate'
 const FlightsResult = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const { selectedDestination, selectedOrigin, selectedDate } = location?.state
   const [flightData, setFlightData] = useState(myData)
-  const [priceRange, setPriceRange] = useState(3080)
+  const [priceRange, setPriceRange] = useState(4000)
   const submitBooking = (Airline, selectedDate, price, country) => {
     navigate('/payment', { state: { Airline, selectedDate, price, country } });
   }
   const handlePriceRange = (e) => {
     setPriceRange(e.target.value)
   }
-  console.log(priceRange);
+  const filterPriceRange = () => {
+    const filteredDate = flightData.filter((data) => {
+      return data.price < priceRange
+    })
+    setFlightData(filteredDate);
+    if (airlinesInfo.airlines.at(-1) !== undefined) {
+      filterPriceByCheckBox()
+    }
+  }
+  const filterPriceByCheckBox = () => {
+    const filteredDate = flightData.filter((data) => {
+      return data.Airline === airlinesInfo.airlines.at(-1)
+    })
+    setFlightData(filteredDate);
+  }
+  const [airlinesInfo, setairlinesInfo] = useState({
+    airlines: [],
+    response: [],
+  });
+
+  const handleChange = (e) => {
+    const { value, checked } = e.target;
+    const { airlines } = airlinesInfo;
+    if (checked) {
+      setairlinesInfo({
+        airlines: [...airlines, value],
+        response: [...airlines, value],
+      });
+    }
+    // Case 2  : The user unchecks the box
+    else {
+      setairlinesInfo({
+        airlines: airlines.filter((e) => e !== value),
+        response: airlines.filter((e) => e !== value),
+      });
+    }
+  };
   return (
-    <section className="text-gray-600 body-font">
-      <div className="container my-4 py-4 w-full flex justify-center flex-col items-center">
-        {/* Price Filter Start here */}
-        <div className="flex sm:fixed top-24 my-4 left-4 flex-col px-16 py-4 shadow-xl border h-max">
-          <div className="flex items-start flex-col space-x-3 py-6">
-            <label htmlFor="filterPrice" className='text-xl my-4 text-black font-bold'>Filter Price</label>
-            <input type="range" max={3400} min={500} step="100" id='filterPrice' className="w-full h-2 rounded-lg  cursor-pointer dark:bg-gray-700" onChange={handlePriceRange} value={priceRange} />
-          </div>
-          <div className="divide-y">
+    <section className="text-gray-600 body-font flex sm:flex-row flex-col items-center ">
+      <div className="flex w-max sm:w-64 border-white mb-10 flex-col px-14 py-2 shadow-xl border">
+        <div className="flex items-start flex-col space-x-3 py-6">
+          <label htmlFor="filterPrice" className='text-xl my-4 text-black font-bold'>Filter Price</label>
+          <input type="range" max={5000} min={500} step="100" id='filterPrice' className="w-full h-2 rounded-lg  cursor-pointer dark:bg-gray-700" onChange={handlePriceRange} value={priceRange} />
+        </div>
+        <div className="divide-y">
+          <form onSubmit={(e) => e.preventDefault()}>
             <div className="flex items-start space-x-3 py-6">
-              <input type="checkbox" className="border-gray-300 rounded h-5 w-5" />
+              <input type="checkbox"
+                name="airlines"
+                value="Air India"
+                id="flexCheckDefault"
+                onChange={handleChange} className="border-gray-300 rounded h-5 w-5" />
               <div className="flex flex-col">
                 <h1 className="text-gray-700 font-medium leading-none">Air India</h1>
               </div>
             </div>
             <div className="flex items-start space-x-3 py-6">
-              <input type="checkbox" className="border-gray-300 rounded h-5 w-5" />
+              <input type="checkbox" name="airlines"
+                value="Spice Jet"
+                id="flexCheckDefault"
+                onChange={handleChange} className="border-gray-300 rounded h-5 w-5" />
               <div className="flex flex-col">
                 <h1 className="text-gray-700 font-medium leading-none">Spice Jet</h1>
               </div>
             </div>
             <div className="flex items-start space-x-3 py-6">
-              <input type="checkbox" className="border-gray-300 rounded h-5 w-5" />
+              <input type="checkbox" name="airlines"
+                value="Vistara"
+                id="flexCheckDefault"
+                onChange={handleChange} className="border-gray-300 rounded h-5 w-5" />
               <div className="flex flex-col">
                 <h1 className="text-gray-700 font-medium leading-none">Vistara</h1>
               </div>
             </div>
             <div className="flex items-start space-x-3 py-6">
-              <input type="checkbox" className="border-gray-300 rounded h-5 w-5" />
+              <input type="checkbox" name="airlines"
+                value="Air Asia"
+                id="flexCheckDefault"
+                onChange={handleChange} className="border-gray-300 rounded h-5 w-5" />
               <div className="flex flex-col">
                 <h1 className="text-gray-700 font-medium leading-none">Air Asia</h1>
               </div>
             </div>
-          </div>
+            <div className="flex items-start space-x-3 py-6">
+              <button
+                className="my-2 rounded border border-black px-4 py-2 text-sm font-medium  text-black "
+                onClick={filterPriceRange}
+              >
+                Apply Filter
+              </button>
+            </div>
+          </form>
         </div>
-        {/* Price Filter End here */}
+      </div>
+      <div className="container my-4 py-4 w-full flex h-screen justify-start flex-col items-center">
         <div className="-my-4 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 divide-gray-100">
           {
             flightData.filter((data) => {

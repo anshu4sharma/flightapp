@@ -23,6 +23,9 @@ let PassengerDetails = yup.object().shape({
         .typeError("That doesn't look like a phone number")
         .integer("A phone number can't include a decimal point")
         .required("Please enter your Phone Number"),
+    passport: yup
+        .number()
+        .required("Please enter your Passport Number"),
 });
 
 export default PassengerDetails;
