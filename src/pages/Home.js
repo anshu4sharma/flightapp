@@ -1,21 +1,26 @@
-import React, { useState } from 'react'
-import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-import addDays from 'date-fns/addDays'
 import { useFormik } from 'formik';
 import flightSearchSchema from '../schema/flightSearch'
+import Select from 'react-select'
+
 const Home = () => {
-  const [value, onChange] = useState([new Date(), addDays(new Date(), 7)]);
   const { values, handleSubmit, handleChange, errors, touched } = useFormik({
     initialValues: {
       origin: "",
       destination: "",
+      selectDate: ""
     },
-    validationSchema:flightSearchSchema,
+    validationSchema: flightSearchSchema,
     onSubmit: () => {
       console.log(values);
     }
   })
-  console.log(value);
+  const options = [
+    { value: 'New York', label: 'New York' },
+    { value: 'London', label: 'London' },
+    { value: 'Kolkata', label: 'Kolkata' },
+    { value: 'Lahore', label: 'Lahore' },
+    { value: 'Delhi', label: 'Delhi' },
+  ]
   return (
     <>
       <div className='w-full flex justify-center flex-col items-center '>
@@ -25,25 +30,26 @@ const Home = () => {
             <label className='flex flex-row pr-8'> <span className="material-symbols-outlined rotate-45	">
               flight
             </span> Origin Airport</label>
-            <input type="text" value={values.origin} name="origin" placeholder='New Delhi' className='border border-black mx-6 my-2 flex p-3' onChange={handleChange} />
+            <Select options={options} name="origin" placeholder='Enter city or airport' className='my-4' />
+            {errors.origin && touched.origin ? (
+              <p className="text-red-900">{errors.origin}</p>
+            ) : null}
           </div>
-          {errors.origin && touched.origin ? (
-            <p className="text-red-900">{errors.origin}</p>
-          ) : null}
+
           <div className='flex flex-col'>
             <label className='flex flex-row pr-8'> <span className="material-symbols-outlined rotate-45	">
               flight
             </span>  Destination Airport</label>
-            <input type="text" value={values.destination} name="destination" placeholder='New York' className='border border-black mx-6 my-2 flex p-3' onChange={handleChange} />
+            <Select options={options} className="my-4" name="origin" placeholder='Enter city or airport' />
+            {errors.destination && touched.destination ? (
+              <p className="text-red-900">{errors.destination}</p>
+            ) : null}
           </div>
-          {errors.destination && touched.destination ? (
-            <p className="text-red-900">{errors.destination}</p>
-          ) : null}
           <div className='flex flex-col'>
-            <label className='flex flex-row pr-8'> <span className="material-symbols-outlined rotate-45	">
-              flight
-            </span>  Select date</label>
-            <DateRangePicker className='mx-6 my-2 flex p-3' minDate={new Date()} onChange={onChange} value={value} />
+            <label className='flex flex-row pr-8'> <span className="material-symbols-outlined">
+              calendar_month
+            </span> Select Departure</label>
+            <input onChange={handleChange} value={values.selectDate} type="date" className='border mx-12 py-2 flex px-6 my-4' name="selectDate" placeholder='Departure' />``
           </div>
           {errors.dateRange && touched.dateRange ? (
             <p className="text-red-900">{errors.dateRange}</p>
