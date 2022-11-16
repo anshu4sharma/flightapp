@@ -1,63 +1,52 @@
-import { useFormik } from 'formik';
-import flightSearchSchema from '../schema/flightSearch'
 import Select from 'react-select'
-
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
-  const { values, handleSubmit, handleChange, errors, touched } = useFormik({
-    initialValues: {
-      origin: "",
-      destination: "",
-      selectDate: ""
-    },
-    validationSchema: flightSearchSchema,
-    onSubmit: () => {
-      console.log(values);
-    }
-  })
+  const navigate = useNavigate()
   const options = [
-    { value: 'New York', label: 'New York' },
+    { value: 'Paris', label: 'Paris' },
     { value: 'London', label: 'London' },
-    { value: 'Kolkata', label: 'Kolkata' },
+    { value: 'Mumbai', label: 'Mumbai' },
     { value: 'Lahore', label: 'Lahore' },
     { value: 'Delhi', label: 'Delhi' },
+    { value: 'Banglore', label: 'Banglore' },
   ]
+  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedOrigin, setSelectedOrigin] = useState(options.label)
+  const [selectedDestination, setSelectedDestination] = useState(options.label)
+
+  const handleSelectedOrigin = (e) => {
+    setSelectedOrigin(e.label)
+  }
+  const handleSelectedDestination = (e) => {
+    setSelectedDestination(e.label)
+  }
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+    navigate('/flights', { state: { selectedOrigin, selectedDestination, selectedDate } });
+  }
+
   return (
     <>
-      <div className='w-full flex justify-center flex-col items-center '>
-        <h1 className='font-bold text-2xl my-4'>Search Flight !</h1>
-        <form onSubmit={handleSubmit} className='w-max shadow-md rounded-3xl bg-white h-full grid grid-flow-row p-8'>
+      <div className='w-full flex justify-center flex-col items-center'>
+        <h1 className='font-bold text-2xl mb-4'>Search Flight !</h1>
+        <form onSubmit={handleFormSubmit} className='w-96 shadow-md rounded-3xl bg-white h-full flex flex-col p-8'>
           <div className='flex flex-col'>
-            <label className='flex flex-row pr-8'> <span className="material-symbols-outlined rotate-45	">
-              flight
-            </span> Origin Airport</label>
-            <Select options={options} name="origin" placeholder='Enter city or airport' className='my-4' />
-            {errors.origin && touched.origin ? (
-              <p className="text-red-900">{errors.origin}</p>
-            ) : null}
-          </div>
-
-          <div className='flex flex-col'>
-            <label className='flex flex-row pr-8'> <span className="material-symbols-outlined rotate-45	">
-              flight
-            </span>  Destination Airport</label>
-            <Select options={options} className="my-4" name="origin" placeholder='Enter city or airport' />
-            {errors.destination && touched.destination ? (
-              <p className="text-red-900">{errors.destination}</p>
-            ) : null}
+            <label className='flex '>  Origin Airport</label>
+            <Select required options={options} onChange={handleSelectedOrigin} placeholder='Enter city or airport' className='my-4 ' />
           </div>
           <div className='flex flex-col'>
-            <label className='flex flex-row pr-8'> <span className="material-symbols-outlined">
-              calendar_month
-            </span> Select Departure</label>
-            <input onChange={handleChange} value={values.selectDate} type="date" className='border mx-12 py-2 flex px-6 my-4' name="selectDate" placeholder='Departure' />``
+            <label className='flex '> Destination Airport</label>
+            <Select required options={options} onChange={handleSelectedDestination} className="my-4" name="origin" placeholder='Enter city or airport' />
           </div>
-          {errors.dateRange && touched.dateRange ? (
-            <p className="text-red-900">{errors.dateRange}</p>
-          ) : null}
-          <div className='grid place-content-center'>
+          <div className='flex flex-col items-start'>
+            <label className='flex'>Select Departure</label>
+            <input type="date" className='my-4 border border-[#cccccc] w-full' required onChange={(e) => setSelectedDate(e.target.value)} name="selectDate" placeholder='Select Date' />
+          </div>
+          <div className='shadow-xl'>
             <button
               type='submit'
-              className="inline-block rounded bg-indigo-600 px-8 py-3 text-sm font-medium text-white transition "
+              className="w-full rounded bg-indigo-600 px-8 py-3 text-sm font-medium text-white transition"
             >
               Search
             </button>
