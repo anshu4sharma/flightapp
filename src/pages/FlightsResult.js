@@ -30,17 +30,16 @@ const FlightsResult = () => {
     }
   }
   const filterPriceByCheckBox = () => {
-    const filteredDate = flightData.filter((data) => {
-      return data.Airline === airlinesInfo.airlines.at(-1)
+    //  max two checkbox 
+    const filteredData = flightData.filter((data) => {
+      return data.Airline === airlinesInfo.airlines.at(-1) || data.Airline === airlinesInfo.airlines.at(-2)
     })
-    setFlightData(filteredDate);
+    setFlightData(filteredData);
   }
   const [airlinesInfo, setairlinesInfo] = useState({
     airlines: [],
     response: [],
   });
-  console.log(flightData);
-  console.log(airlinesInfo.airlines);
   const handleChange = (e) => {
     const { value, checked } = e.target;
     const { airlines } = airlinesInfo;
@@ -80,7 +79,7 @@ const FlightsResult = () => {
             </div>
             <div className="flex items-start space-x-3 py-6">
               <input type="checkbox" name="airlines"
-                value="Spice Jet"
+                value="SpiceJet"
                 id="flexCheckDefault"
                 onChange={handleChange} className="border-gray-300 rounded h-5 w-5" />
               <div className="flex flex-col">
@@ -123,7 +122,7 @@ const FlightsResult = () => {
         </div>
       </div>
       <div className="container my-4 py-4 w-full flex h-screen justify-start flex-col items-center">
-        <div className="-my-4 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 divide-gray-100">
+        <div className="-my-4 mx-4 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 divide-gray-100">
           {
             flightData.filter((data) => {
               if (data.country === `${selectedOrigin} to ${selectedDestination}`) { return data }
