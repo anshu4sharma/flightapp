@@ -51,7 +51,7 @@ const Home = () => {
             <input type="date" className='my-4 border border-[#cccccc] w-full' required onChange={(e) => setSelectedDate(e.target.value)} name="selectDate" placeholder='Select Date' />
           </div>
           {
-            error && <p className='text-red-800 my-4'>Origin and destination should be differe</p>
+            error && <p className='text-red-800 my-4'>Origin and destination should be different</p>
           }
           <div className='shadow-xl'>
             <button
