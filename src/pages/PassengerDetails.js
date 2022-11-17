@@ -14,14 +14,14 @@ const PassengerDetails = () => {
       email: "",
       fname: "",
       lname: "",
-      passport:""
+      passport: ""
     },
     validationSchema: PassengerDetailSchema,
     onSubmit: () => {
       navigate("/flightconfirmation", { state: { values, Airline, country, price, selectedDate } })
     },
   });
-  const { name, phone, email, fname, lname ,passport} = values
+  const { name, phone, email, fname, lname, passport } = values
   return (
     <>
       <div className="h-full">

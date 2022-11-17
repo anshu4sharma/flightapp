@@ -10,12 +10,10 @@ const App = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path="*" element={<Navbar />} />
         <Route path="/" element={<Home />} />
         <Route path="/flights" element={<FlightsResult />} />
         <Route path="/payment" element={<PassengerDetails />} />
         <Route path="/flightconfirmation" element={<FlightConfirmation />} />
-        {/* <Route path="/flight/book:id" element={<Flight />} /> */}
       </Routes>
     </>
   )

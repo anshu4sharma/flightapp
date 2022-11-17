@@ -3,8 +3,7 @@ import { reverseDate } from '../components/ReverseDate'
 export default function FlightConfirmation() {
   const location = useLocation()
   const { values, Airline, country, price, selectedDate } = location.state
-  const { email, fname, lname, name, phone ,passport} = values
-  console.log(name);
+  const { email, fname, lname, phone ,passport} = values
   return (
     <div className="overflow-hidden w-full flex items-center justify-center ">
       <div className="flex flex-col w-fit bg-white ">
@@ -39,7 +38,7 @@ export default function FlightConfirmation() {
             </div>
             <div className="bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Passport Number</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">${passport}</dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{passport}</dd>
             </div>
             <div className="bg-gray-50 px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Origin → Destination</dt>
