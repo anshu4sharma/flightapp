@@ -14,7 +14,7 @@ const Home = () => {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [selectedOrigin, setSelectedOrigin] = useState(options.label)
   const [selectedDestination, setSelectedDestination] = useState(options.label)
-
+  const [error, setSameValueError] = useState(false)
   const handleSelectedOrigin = (e) => {
     setSelectedOrigin(e.label)
   }
@@ -23,9 +23,16 @@ const Home = () => {
   }
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    navigate('/flights', { state: { selectedOrigin, selectedDestination, selectedDate } });
+    if (selectedOrigin === selectedDestination) {
+      setSameValueError(true)
+      alert("Origin and destination should be different")
+    }
+    else{
+      navigate('/flights', { state: { selectedOrigin, selectedDestination, selectedDate } });
+    }
   }
 
+  console.log(selectedOrigin);
   return (
     <>
       <div className='w-full flex justify-center flex-col items-center'>
@@ -43,6 +50,9 @@ const Home = () => {
             <label className='flex'>Select Departure</label>
             <input type="date" className='my-4 border border-[#cccccc] w-full' required onChange={(e) => setSelectedDate(e.target.value)} name="selectDate" placeholder='Select Date' />
           </div>
+          {
+            error && <p className='text-red-800 my-4'>Origin and destination should be differe</p>
+          }
           <div className='shadow-xl'>
             <button
               type='submit'
