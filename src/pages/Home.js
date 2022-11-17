@@ -1,6 +1,8 @@
 import Select from 'react-select'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-date-picker';
+import moment from 'moment'
 const Home = () => {
   const navigate = useNavigate()
   const options = [
@@ -27,12 +29,11 @@ const Home = () => {
       setSameValueError(true)
       alert("Origin and destination should be different")
     }
-    else{
-      navigate('/flights', { state: { selectedOrigin, selectedDestination, selectedDate } });
+    else {
+      let formattedDate = moment(selectedDate).format('YYYY-MM-DD')
+      navigate('/flights', { state: { selectedOrigin, selectedDestination, selectedDate: formattedDate } });
     }
   }
-
-  console.log(selectedOrigin);
   return (
     <>
       <div className='w-full flex justify-center flex-col items-center'>
@@ -48,7 +49,7 @@ const Home = () => {
           </div>
           <div className='flex flex-col items-start'>
             <label className='flex'>Select Departure</label>
-            <input type="date" className='my-4 border border-[#cccccc] w-full' required onChange={(e) => setSelectedDate(e.target.value)} name="selectDate" placeholder='Select Date' />
+            <DatePicker minDate={new Date()} className='my-4 border border-[#cccccc] w-full' value={selectedDate} onChange={setSelectedDate} />
           </div>
           {
             error && <p className='text-red-800 my-4'>Origin and destination should be different</p>
