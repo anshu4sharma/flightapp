@@ -30,15 +30,13 @@ const FlightsResult = () => {
     }
   }
   const filterPriceByCheckBox = () => {
-    //  max two checkbox 
     const filteredData = flightData.filter((data) => {
-      return data.Airline === airlinesInfo.airlines.at(-1) || data.Airline === airlinesInfo.airlines.at(-2)
+      return airlinesInfo.airlines.includes(data.Airline)
     })
     setFlightData(filteredData);
   }
   const [airlinesInfo, setairlinesInfo] = useState({
     airlines: [],
-    response: [],
   });
   const handleChange = (e) => {
     const { value, checked } = e.target;
@@ -46,14 +44,12 @@ const FlightsResult = () => {
     if (checked) {
       setairlinesInfo({
         airlines: [...airlines, value],
-        response: [...airlines, value],
       });
     }
     // Case 2  : The user unchecks the box
     else {
       setairlinesInfo({
         airlines: airlines.filter((e) => e !== value),
-        response: airlines.filter((e) => e !== value),
       });
     }
   };
