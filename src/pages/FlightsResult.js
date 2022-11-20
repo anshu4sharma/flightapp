@@ -21,20 +21,11 @@ const FlightsResult = () => {
   const filterPriceRange = () => {
     // this will only run when we change input range
     const filteredDate = flightData.filter((data) => {
-      return data.price < priceRange
+      return data.price <= priceRange && airlinesInfo.airlines.includes(data.Airline)
     })
     setFlightData(filteredDate);
-    // this will only run when we check on a box
-    if (airlinesInfo.airlines.at(-1) !== undefined) {
-      filterPriceByCheckBox()
-    }
   }
-  const filterPriceByCheckBox = () => {
-    const filteredData = flightData.filter((data) => {
-      return airlinesInfo.airlines.includes(data.Airline)
-    })
-    setFlightData(filteredData);
-  }
+
   const [airlinesInfo, setairlinesInfo] = useState({
     airlines: [],
   });
